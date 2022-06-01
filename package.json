@@ -1,0 +1,10 @@
+{
+  "name": "aed-screencap",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "R. Scott Reis <reis.robert.s@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer": "^14.1.2"
+  }
+}
