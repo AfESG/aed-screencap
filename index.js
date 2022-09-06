@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 
+const ROOT_URL = process.argv[2] || 'https://africanelephantdatabase.org';
 const args = [ '--no-sandbox', '--disable-setuid-sandbox' ];
 const opts = { args, headless: true };
 
@@ -15,7 +16,7 @@ const opts = { args, headless: true };
   const crawl = async (url) => {
     const page = await browser.newPage();
     console.log(`Navigating to ${url}...`);
-    await page.goto(url, { timeout: 0 }); //TODO probably good to have _some_ timeout
+    await page.goto(url, { timeout: 60 });
     const level = await page.$$eval('ol.breadcrumb>li', els => els.length);
     // continent and region
     if (level < 5) {
@@ -36,9 +37,9 @@ const opts = { args, headless: true };
     await page.close();
   };
 
-  const regionURLs = await crawl('http://localhost:3000/report/2023/Africa');
+  const regionURLs = await crawl(`${ROOT_URL}/report/2023/Africa`);
   const countryURLS = (await Promise.all(regionURLs.map(crawl))).flat();
-  await Promise.all(countryURLS.map(crawl)); //TODO might need to throttle this...
+  await Promise.all(countryURLS.map(crawl));
   await browser.close();
   console.log('Done!');
   process.exit(0);
