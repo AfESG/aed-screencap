@@ -16,7 +16,7 @@ const opts = { args, headless: true };
   const crawl = async (url) => {
     const page = await browser.newPage();
     console.log(`Navigating to ${url}...`);
-    await page.goto(url, { timeout: 60 });
+    await page.goto(url, { timeout: 60_000 });
     const level = await page.$$eval('ol.breadcrumb>li', els => els.length);
     // continent and region
     if (level < 5) {
